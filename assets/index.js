@@ -1,6 +1,7 @@
 var body = document.body;
 var currentLang = 'en';
 var input = undefined;
+var shiftEnabled = false;
 
 function renderInput() {
     input = document.createElement('textarea');
@@ -23,14 +24,35 @@ function renderKeyboard(lang) {
         row.className = 'row';
 
         for (var j = 0; j < keyboardConfig[i].length; j++) {
+            var cellConfig = keyboardConfig[i][j];
             var cell = document.createElement('div');
+            if (cellConfig.id) {
+                cell.id = cellConfig.id;
+            }
             cell.className = 'cell';
-            cell.innerText = keyboardConfig[i][j][lang].main;
-            cell.style.width = keyboardConfig[i][j].width + 'px';
+            cell.innerText = cellConfig[lang].main;
+            cell.style.width = cellConfig.width + 'px';
             cell.onclick = (function (cellConfig) {
-                return function () {
-                    oldText = input.innerHTML;
-                    input.innerHTML = oldText + cellConfig[lang].main;
+                return function (e) {
+                    if (cellConfig.code === 8) {
+                        input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
+                    } else if (cellConfig.code === 16) {
+                        if (shiftEnabled) {
+                            e.target.classList.remove('active');
+                        } else {
+                            e.target.classList.add('active');
+                        }
+
+                        shiftEnabled = !shiftEnabled;
+                    } else {
+                        if (shiftEnabled) {
+                            input.innerHTML += cellConfig[lang].secondary;
+                            shiftEnabled = false;
+                            document.getElementById('shift').classList.remove('active');
+                        } else {
+                            input.innerHTML += cellConfig[lang].main;
+                        }
+                    }
                 }
             })(keyboardConfig[i][j]);
 
