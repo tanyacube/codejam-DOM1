@@ -1,0 +1,17 @@
+.keyboard {
+    width: 100%;
+}
+
+.row {
+    width: 100%;
+}
+
+.cell {
+    height: 30px;
+    display: inline-block;
+    background: #333;
+    color: #fff;
+    line-height: 30px;
+    text-align: center;
+    margin: 0 3px;
+}
