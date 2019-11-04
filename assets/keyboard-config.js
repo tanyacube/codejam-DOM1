@@ -340,7 +340,7 @@ var keyboardConfig = [
         },
     ],
     [
-        {
+        {   font: 10,
             width: 60,
             code: 20,
             en: {
@@ -636,15 +636,16 @@ var keyboardConfig = [
             width: 30,
             code: 38,
             en: {
-                main: 'up',
-                secondary: 'up'
+                main: '⇧',
+                secondary: '⇧'
             },
             ru: {
-                main: 'up',
-                secondary: 'up'
+                main: '⇧',
+                secondary: '⇧'
             }
         },
-        {
+        {   
+            font: 8,
             class: 'shift',
             location: 2,
             width: 30,
@@ -661,6 +662,7 @@ var keyboardConfig = [
     ],
     [
         {
+            font: 10,
             width: 30,
             code: 17,
             en: {
@@ -673,6 +675,7 @@ var keyboardConfig = [
             }
         },
         {
+            font: 10,
             width: 30,
             code: 18,
             en: {
@@ -685,6 +688,7 @@ var keyboardConfig = [
             }
         },
         {
+            font: 10,
             width: 40,
             code: 91,
             en: {
@@ -709,6 +713,7 @@ var keyboardConfig = [
             }
         },
         {
+            font: 10,
             width: 40,
             code: 93,
             en: {
@@ -721,6 +726,7 @@ var keyboardConfig = [
             }
         },
         {
+            font: 10,
             width: 30,
             code: 18,
             en: {
@@ -736,36 +742,36 @@ var keyboardConfig = [
             width: 30,
             code: 37,
             en: {
-                main: 'left',
-                secondary: 'left'
+                main: '⇦',
+                secondary: '⇦'
             },
             ru: {
-                main: 'left',
-                secondary: 'left'
+                main: '⇦',
+                secondary: '⇦'
             }
         },
         {
             width: 30,
             code: 40,
             en: {
-                main: 'down',
-                secondary: 'down'
+                main: '⇩',
+                secondary: '⇩'
             },
             ru: {
-                main: 'down',
-                secondary: 'down'
+                main: '⇩',
+                secondary: '⇩'
             }
         },
         {
             width: 30,
             code: 39,
             en: {
-                main: 'right',
-                secondary: 'right'
+                main: '⇨',
+                secondary: '⇨'
             },
             ru: {
-                main: 'right',
-                secondary: 'right'
+                main: '⇨',
+                secondary: '⇨'
             }
         },
     ]

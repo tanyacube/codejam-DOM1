@@ -1,10 +1,29 @@
+@font-face {
+    font-family: "Hack";
+    src: url("./fonts/Hack-Bold.woff2") format("woff2"),
+         url("./fonts/Hack-Bold.woff") format("woff");
+  }
+
+body {
+    text-align: center;
+}
+
 .input {
-    width: 60%;
-    height: 20vh;
+    width: 40%;
+    height: 150px;
+    padding: 0;
+    color: #f7c83b;
+    background: black;
+    font-size: 18px;
+    font-family: "Hack";
+    padding: 10px
 }
 
 .keyboard {
     width: 60%;
+    margin: 0 auto;
+    font-family: "Hack";
+    font-size: 14px;
 }
 
 .row {
@@ -12,6 +31,7 @@
 }
 
 .cell {
+    vertical-align: middle;
     height: 30px;
     display: inline-block;
     background: #333;

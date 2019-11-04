@@ -1,15 +1,18 @@
 var body = document.body;
-var currentLang = 'en';
+var currentLang = localStorage.currentLang || 'en';
 var input = undefined;
 var shiftEnabled = false;
+var capsEnabled = false;
 var shiftLocation = 0;
 var shiftBtn = undefined;
+
 
 function renderInput() {
     input = document.createElement('textarea');
     input.className = 'input';
     body.appendChild(input);
 }
+
 
 function renderKeyboard(lang) {
     var prevKeyboard = document.getElementsByClassName('keyboard');
@@ -32,16 +35,32 @@ function renderKeyboard(lang) {
                 cell.className = cellConfig.className;
             }
             cell.className = 'cell';
-            cell.innerText = cellConfig[lang].main;
+            cell.innerText = cellConfig[lang].secondary;
             cell.style.width = cellConfig.width + 'px';
+            cell.style.fontSize = cellConfig.font + 'px';
             cell.onclick = (function (cellConfig) {
                 return function (e) {
                     switch (cellConfig.code) {
                         case 32:
                             input.innerHTML += ' ';
                             break;
+                        case 9:
+                            input.innerHTML += '\t';
+                            break;
+                        case 13:
+                                input.innerHTML += '\n';
+                            break;
                         case 8:
                             input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
+                            break;
+                        case 20:
+                            if(!capsEnabled){
+                                e.target.classList.add('active');
+                                capsEnabled = true;
+                            } else {
+                                e.target.classList.remove('active');
+                                capsEnabled = false;
+                            }
                             break;
                         case 16:
                             if (shiftEnabled) {
@@ -66,6 +85,8 @@ function renderKeyboard(lang) {
                                 input.innerHTML += cellConfig[lang].secondary;
                                 shiftEnabled = false;
                                 shiftBtn.classList.remove('active');
+                            } else if (capsEnabled) {
+                                input.innerHTML += cellConfig[lang].secondary;
                             } else {
                                 input.innerHTML += cellConfig[lang].main;
                             }
@@ -92,9 +113,10 @@ document.onkeydown = function (e) {
     if (cmdDown && e.keyCode == 16) {
         if (currentLang == 'en') {
             currentLang = 'ru';
-        } else {
+        } else if (currentLang == 'ru'){
             currentLang = 'en';
         }
+        localStorage.currentLang = currentLang;
 
         renderKeyboard(currentLang);
     }
