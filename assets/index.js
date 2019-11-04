@@ -2,6 +2,8 @@ var body = document.body;
 var currentLang = 'en';
 var input = undefined;
 var shiftEnabled = false;
+var shiftLocation = 0;
+var shiftBtn = undefined;
 
 function renderInput() {
     input = document.createElement('textarea');
@@ -26,35 +28,50 @@ function renderKeyboard(lang) {
         for (var j = 0; j < keyboardConfig[i].length; j++) {
             var cellConfig = keyboardConfig[i][j];
             var cell = document.createElement('div');
-            if (cellConfig.id) {
-                cell.id = cellConfig.id;
+            if (cellConfig.className) {
+                cell.className = cellConfig.className;
             }
             cell.className = 'cell';
             cell.innerText = cellConfig[lang].main;
             cell.style.width = cellConfig.width + 'px';
             cell.onclick = (function (cellConfig) {
                 return function (e) {
-                    if (cellConfig.code === 8) {
-                        input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
-                    } else if (cellConfig.code === 16) {
-                        if (shiftEnabled) {
-                            e.target.classList.remove('active');
-                        } else {
-                            e.target.classList.add('active');
-                        }
+                    switch (cellConfig.code) {
+                        case 32:
+                            input.innerHTML += ' ';
+                            break;
+                        case 8:
+                            input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
+                            break;
+                        case 16:
+                            if (shiftEnabled) {
+                                if (cellConfig.location === shiftLocation) {
+                                    e.target.classList.remove('active');
+                                    shiftEnabled = false;
+                                } else {
+                                    shiftBtn.classList.remove('active');
+                                    e.target.classList.add('active');
+                                    shiftBtn = e.target;
+                                }
+                            } else {
+                                e.target.classList.add('active');
+                                shiftBtn = e.target;
+                                shiftEnabled = true;
+                            }
 
-                        shiftEnabled = !shiftEnabled;
-                    } else {
-                        if (shiftEnabled) {
-                            input.innerHTML += cellConfig[lang].secondary;
-                            shiftEnabled = false;
-                            document.getElementById('shift').classList.remove('active');
-                        } else {
-                            input.innerHTML += cellConfig[lang].main;
-                        }
+                            shiftLocation = cellConfig.location;
+                            break;
+                        default:
+                            if (shiftEnabled) {
+                                input.innerHTML += cellConfig[lang].secondary;
+                                shiftEnabled = false;
+                                shiftBtn.classList.remove('active');
+                            } else {
+                                input.innerHTML += cellConfig[lang].main;
+                            }
                     }
                 }
-            })(keyboardConfig[i][j]);
+            })(cellConfig);
 
             row.appendChild(cell);
         }
